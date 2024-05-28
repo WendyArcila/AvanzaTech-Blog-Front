@@ -1,0 +1,7 @@
+.toolbar button {
+  @apply px-2 py-1;
+}
+
+.select {
+  @apply  bg-black text-white; 
+}

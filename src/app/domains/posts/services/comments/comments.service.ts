@@ -22,4 +22,9 @@ export class CommentsService {
     return this.http.post<Commentary>('http://localhost:8000/comments/',data , {withCredentials: true})
   }
 
+  listComments(url: string){
+
+    return this.http.get<DataResponseComment>(url, {withCredentials: true})
+  }
+
 }

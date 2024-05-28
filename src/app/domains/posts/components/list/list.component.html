@@ -53,7 +53,7 @@
               </button>
               <a [routerLink]="['/post', post.id]"  class="text-lime-400  hover:text-lime-700 "> <mat-icon>comment</mat-icon></a>
             </div>
-            <div >
+            <div *ngIf="post.edit">
               <a [routerLink]="['/edit', post.id]"  class="text-lime-400  hover:text-lime-700 "> <mat-icon>draw</mat-icon></a>
             <button type="button" (click)="deletePost(post.id!)" class="text-lime-400  hover:text-lime-700 ">
               <mat-icon>delete</mat-icon>

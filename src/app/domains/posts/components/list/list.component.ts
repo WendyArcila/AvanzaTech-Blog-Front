@@ -5,7 +5,6 @@ import { Component, inject, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { LikesService } from '../../services/likes/likes.service';
-import { CommentsService } from '../../services/comments/comments.service';
 import { Post } from '../../models/post';
 import { ListService } from '../../services/list/list.service';
 import { Like } from '../../models/like';
@@ -13,9 +12,9 @@ import { Commentary } from '../../models/commentary';
 import { LocalStorageService } from '../../../shared/services/storage.service';
 import { DetailService } from '../../services/detail/detail.service';
 import Swal from 'sweetalert2';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { DataResponsePost } from '../../models/data';
 import { RouterLinkWithHref } from '@angular/router'
+import { forEach } from '@tiptap/core/dist/packages/core/src/commands';
 
 
 @Component({
@@ -59,6 +58,7 @@ export class ListComponent {
   selectedPost = signal(-1);
   isLike = signal(true);
 
+
   constructor(
     private router: Router,
     private local: LocalStorageService,
@@ -76,6 +76,7 @@ export class ListComponent {
       next: (data)=>{
         this.pagePost.set(data);
         this.posts.set(data.results);
+        this.showEdit()
       },
       error: (data)=>{
         console.log(data)
@@ -219,5 +220,29 @@ export class ListComponent {
     }
   }
 
+  showEdit(){
+    this.posts().forEach(post=> {
+    if(post.author === Number(this.idUserAuthenticated)){
+      if(post.post_category_permission[3].permission === 2){
+        post.edit = true;
+      }
+    }
+    else if(post.author_team === String(this.teamUserAuthenticated)){
+      if(post.post_category_permission[2].permission === 2){
+        post.edit = true;
+      }
+    }else if (this.local.getStorage('userAuth') !== undefined){
+      if(post.post_category_permission[1].permission === 2){
+        post.edit = true;
+      }
+    } else {
+      if(post.post_category_permission[0].permission === 2){
+        post.edit = true;
+      }
+    }
+
+    });
+
+  }
 
 }

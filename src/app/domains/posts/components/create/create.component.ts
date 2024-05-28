@@ -9,6 +9,7 @@ import { DetailService } from '../../services/detail/detail.service';
 import { LocalStorageService } from '../../../shared/services/storage.service';
 import { Post } from '../../models/post';
 import Swal from 'sweetalert2';
+import { RichtextComponent } from '../../../shared/components/richtext/richtext.component';
 
 @Component({
   selector: 'app-create',
@@ -20,6 +21,7 @@ import Swal from 'sweetalert2';
     MatIconModule,
     RouterLinkWithHref,
     ReactiveFormsModule,
+    RichtextComponent
   ],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css'

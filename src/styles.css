@@ -7,3 +7,9 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
+.tiptap p {
+  @apply text-base;
+}
+.tiptap h1,.tiptap h2,.tiptap h3 {
+  @apply font-bold;
+}

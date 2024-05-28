@@ -1,0 +1,7 @@
+<div class="flex  space-x-2 pb-2 mb-4">
+  <button type="button" (click)="format('bold')" [ngClass]="{'select': activeButtonStyle === 'font-bold'}" class="px-2 py-1 font-bold">B</button>
+  <button type="button" (click)="format('italic')" [ngClass]="{'select': activeButtonStyle === 'italic'}" class="px-2 py-1 italic">I</button>
+  <button type="button" (click)="format('underline')" [ngClass]="{'select': activeButtonStyle === 'underline'}" class="px-2 py-1 underline">U</button>
+  <button type="button" (click)="format('backColor', 'black')" [ngClass]="{'select': activeButtonStyle === ''}" class="px-2 py-1">A</button>
+</div>
+<div contenteditable="true" class="p-4 min-h-[200px] border-gray-900 border-2 " #editor></div>

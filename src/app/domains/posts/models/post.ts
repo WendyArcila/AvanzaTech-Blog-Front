@@ -6,7 +6,7 @@ import { Commentary } from "./commentary";
 
 export interface Post{
   id?: number;
-  author?: string;
+  author?: number;
   title: string;
   excerpt?: string;
   content:string;
@@ -17,4 +17,5 @@ export interface Post{
   created_date?: Date;
   post_category_permission: PostCategoryPermission[];
   flag?: boolean;
+  edit?: boolean;
 }

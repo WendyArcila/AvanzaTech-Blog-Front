@@ -11,6 +11,8 @@ import { DetailService } from '../../services/detail/detail.service';
 import { RouterLinkWithHref } from '@angular/router'
 import { BtnComponent } from '../../../shared/components/btn/btn.component';
 import { FormGroup, FormBuilder,ReactiveFormsModule, Validators,} from '@angular/forms';
+import { DataResponseComment } from '../../models/data';
+import { Commentary } from '../../models/commentary';
 
 
 @Component({
@@ -31,15 +33,33 @@ export class DetailComponent {
 
   private detail = inject(DetailService);
   private comment = inject(CommentsService);
-
-  @Input() id?: string;
+  teamUserAuthenticated = signal ('team');
+  idUserAuthenticated = signal (-1);
+  flagUser = signal (false);
+  @Input() id?: string ;
   submit = 'submit'
   form: FormGroup;
+  comments= signal<Commentary[]>([])
+  urlComments =`http://localhost:8000/comments/?blog_post=${this.id}`
+
+
+
+
+  pageComments = signal<DataResponseComment>({
+    count: -1,
+    current_page: -1,
+    links: {
+      next: '',
+      previous: '',
+    },
+    results:[],
+    total_pages: -1,
+  });
 
   post = signal<Post>(
     {
       id: -1,
-      author: '',
+      author: -1,
       title: '',
       excerpt : '',
       content:'',
@@ -66,6 +86,8 @@ export class DetailComponent {
   ngOnInit(){
     if(this.id){
       this.getPost(this.id)
+      this.listComments(`http://localhost:8000/comments/?blog_post=${this.id}`)
+      this.existUser()
     }
   }
 
@@ -74,6 +96,7 @@ export class DetailComponent {
     .subscribe({
       next: (data) => {
         this.post.set(data)
+        this.showEdit()
       },
       error: (error) => {
         console.log(error);
@@ -99,7 +122,7 @@ export class DetailComponent {
             timer: 1500
           }).then((result) => {
             if(this.id){
-              this.getPost(this.id)
+              this.listComments(`http://localhost:8000/comments/?blog_post=${this.id}`)
             }
         })
       },
@@ -162,7 +185,80 @@ export class DetailComponent {
       });
     }
   });
+  }
 
-}
+  listComments(page:string){
+    if(this.id){
+      this.comment.listComments(page)
+      .subscribe({
+          next:(response)=> {
+            this.comments.set(response.results)
+            this.pageComments.set(response)
+          },
+          error: (data)=> {
+            console.log(data)
+          }
+      }
+    )
+    }
 
+  }
+
+  showEdit(){
+    const post = this.post()
+    if(post.author === Number(this.idUserAuthenticated)){
+      if(post.post_category_permission[3].permission === 2){
+        post.edit = true;
+      }
+    }
+    else if(post.author_team === String(this.teamUserAuthenticated)){
+      if(post.post_category_permission[2].permission === 2){
+        post.edit = true;
+      }
+    }else if (this.local.getStorage('userAuth') !== undefined){
+      if(post.post_category_permission[1].permission === 2){
+        post.edit = true;
+      }
+    } else {
+      if(post.post_category_permission[0].permission === 2){
+        post.edit = true;
+      }
+    }
+    }
+
+  existTeamUser(){
+    if (this.local.getStorage('teamUserAuth') !== undefined) {
+      this.teamUserAuthenticated.set(this.local.getStorage('teamUserAuth')  || 'team')
+    } else {
+      this.teamUserAuthenticated.set('team');
+    }
+  }
+
+  existIdUser(){
+    if (this.local.getStorage('idUserAuth') !== undefined) {
+      const id = JSON.parse(this.local.getStorage('idUserAuth') || '-1');
+      this.idUserAuthenticated.set(id)
+    } else {
+      this.idUserAuthenticated.set(-1);
+    }
+  }
+
+  existUser(){
+    if (this.local.getStorage('userAuth') !== undefined) {
+      this.flagUser.set(true)
+    } else {
+      this.flagUser.set(false)
+    }
+  }
+
+  paginationNext(){
+    const next = this.pageComments().links.next
+    this.listComments(next)
+  }
+
+
+  paginationBack(){
+    const back = this.pageComments().links.previous
+    this.listComments(back)
+  }
 }

@@ -10,6 +10,7 @@ import { LocalStorageService } from '../../../shared/services/storage.service';
 import { Post } from '../../models/post';
 import Swal from 'sweetalert2';
 import { map } from 'rxjs/operators';
+import { RichtextComponent } from '../../../shared/components/richtext/richtext.component';
 
 @Component({
   selector: 'app-edit',
@@ -20,7 +21,9 @@ import { map } from 'rxjs/operators';
     HeaderComponent,
     MatIconModule,
     RouterLinkWithHref,
-    ReactiveFormsModule,],
+    ReactiveFormsModule,
+    RichtextComponent
+  ],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.css'
 })
@@ -121,8 +124,8 @@ export class EditComponent {
   };
 
   fillPost(){
-    this.newPost.title === ''? this.newPost.title = this.oldPost.title : this.newPost.title = this.title;
-    this.newPost.content === '' ? this.newPost.content = this.oldPost.content : this.newPost.content = this.content;
+    this.title === ''? this.newPost.title = this.oldPost.title : this.newPost.title = this.title;
+    this.content === '' ? this.newPost.content = this.oldPost.content : this.newPost.content = this.content;
     this.newPost.post_category_permission= [
       {'permission': this.publicPermissions === ''?  this.public : this.publicPermissions,
         'category': 1
