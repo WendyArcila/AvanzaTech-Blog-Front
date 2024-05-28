@@ -1,0 +1,35 @@
+<div class="w-full bg-black py-6">
+  <nav>
+    <div class="max-w-screen-xl flex flex-wrap justify-between mx-auto">
+      <div class="flex items-center space-x-0.5">
+        <a routerLink="/" class="flex items-start">
+          <img
+            src="https://images.squarespace-cdn.com/content/v1/6425da5c26f80106e8341374/0d99c709-67dc-4572-8cb7-cf282a476f3a/Logo_Horizontal_Color.png?format=1500w"
+            class="h-10 ml-8"
+            alt="AvanzaTech Logo"
+          />
+        </a>
+      </div>
+      <div  *ngIf="flag !== true" class="flex justify-between items-center p-4">
+        <p class="container mx-auto flex justify-end">
+          <a routerLink="/login" class="mx-2 text-base font-semibold text-gray-50 hover:text-lime-500">Login</a>
+        </p>
+        <p>
+          <a routerLink="/register" class="mx-2 text-base font-semibold text-gray-50 hover:text-lime-500">Register</a>
+        </p>
+      </div>
+
+      <div
+          *ngIf="flag"
+          class="flex items-center">
+        <div class="flex align-bottom justify-end p-3">
+          <span class="text-white text-lg px-3"> Welcome, {{userAuthenticated() }} </span>
+          <button type="submit" (click)="closeSession()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="38px" fill="#75FB4C"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+

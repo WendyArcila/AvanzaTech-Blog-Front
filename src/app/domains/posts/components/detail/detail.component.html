@@ -1,0 +1,104 @@
+<div class="relative overflow-hidden">
+  <app-header />
+  <div class="container mx-auto ">
+    <div class="max-w-screen-lg mx-auto px-10 sm:px-6 lg:px-28 py-10 md:w-auto lg:w-auto xl:w-auto">
+      <div class="flex">
+        <a routerLink="" >
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#75FB4C"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+        </a>
+        <p class="text-base font-bold">Back</p>
+      </div>
+      <div class="flex items-center justify-center">
+        <div class="font-semibold text-2xl  text-gray-950 m-6">{{post().title}} </div>
+
+      </div>
+      <div>
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <!-- Header -->
+
+        <div class="flex items-center justify-between bg-gray-950 py-2 px-8">
+          <p class="text-xl font-bold text-white"> {{post().author_name}} </p>
+          <div class="bg-lime-500 text-white text-s rounded-full px-8 py-2 ">
+            {{post().author_team}}
+          </div>
+        </div>
+        <div class="pt-4 px-6 pb-0">
+          <p class="mt-4 text-base leading-relaxed flex-grow">
+            {{post().content}}
+          </p>
+          <div class="flex justify-end">
+            <p class="text-xs font-light text-gray-500">{{post().created_date | date}}</p>
+          </div>
+        </div>
+        <!-- Footer -->
+        <div class="flex justify-center space-x-2 items-center border-t border-gray-900 py-4 px-6 ">
+          <div >
+            <button *ngIf="post().flag" class="text-lime-400  hover:text-lime-700 ">
+              <mat-icon class="text-[25px]">favorite</mat-icon>
+            </button>
+            <button  type="button"class="material-symbols-outlined  hover:text-lime-700 ">
+              <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#75FB4C"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
+            </button>
+        </div>
+          <div class="flex ">
+            <button type="button"
+            class="text-base font-black hover:text-lime-500 "
+            >{{post().likes!.length}} Likes</button>
+         </div>
+      </div>
+      </div>
+      <div class="flex justify-center space-x-4 items-center p-8">
+        <div class="text-base font-black rounded-lg px-8 py-1  border-gray-900 border-2 text-lime-400  shadow-sm hover:text-lime-700 ">
+        <p>
+          <a [routerLink]="['/edit',id]">
+           <mat-icon>draw</mat-icon>
+          </a>
+        Edit
+        </p>
+      </div>
+      <div class="text-base font-black rounded-lg px-8 py-2  border-gray-900 border-2 text-lime-400  shadow-sm hover:text-lime-700 ">
+        <button type="button" (click)="deletePost()" >
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    </div>
+    </div>
+  </div>
+</div>
+<div class="max-w-screen-lg mx-auto px-10 sm:px-6 lg:px-28 pb-10 md:w-auto lg:w-auto xl:w-auto">
+  <div class="flex justify-center">
+    <p class=" flex text-xl text-white font-black  bg-black rounded-lg w-full justify-center py-2">Comments</p>
+  </div>
+  <div *ngFor="let comment of post().comments" class="p-4">
+    <div  class="flex justify-between items-center ">
+      <p class="text-lg  font-semibold">{{comment.author_name}}</p>
+      <p class="text-sm font-extralight">{{comment.created_date | date}}</p>
+    </div>
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+      <div class="text-base">
+        {{comment.comment}}
+      </div>
+    </div>
+</div>
+</div>
+<div class="max-w-screen-lg mx-auto px-10 sm:px-6 lg:px-28 pb-10 md:w-auto lg:w-auto xl:w-auto">
+  <div class="flex justify-center">
+    <p class="text-lg text-gray-50 font-black  bg-black rounded-lg w-full px-2 py-2">Add New Comment</p>
+  </div>
+  <div class="p-4">
+    <form [formGroup]="form" (ngSubmit)="saveComment()">
+      <input
+      formControlName="comment"
+      placeholder="New Comment"
+      type="text"
+      class="w-full rounded text-base border-gray-900 border-2  focus:border-lime-500  p-2"
+      />
+      <div class="flex justify-center gap-4">
+        <app-btn [typeBtn]="'submit'" [color]="'green'"> Submit </app-btn>
+        <app-btn [typeBtn]="'button'" [color]="'red'" (click)="resetForm()">Cancel </app-btn>
+      </div>
+    </form>
+</div>
+</div>
+</div>
+</div>
