@@ -9,7 +9,6 @@ import { DetailService } from '../../services/detail/detail.service';
 import { LocalStorageService } from '../../../shared/services/storage.service';
 import { Post } from '../../models/post';
 import Swal from 'sweetalert2';
-import { map } from 'rxjs/operators';
 import { RichtextComponent } from '../../../shared/components/richtext/richtext.component';
 
 @Component({

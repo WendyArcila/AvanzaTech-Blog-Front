@@ -33,15 +33,15 @@
           <div>
           <div class="p-2  mx-6 text-gray-950 ">
             <label class="pb-4 font-semibold text-2xl" for="content">Content*:</label>
-            <app-richtext>
             <textarea type="text"
                   [ngClass]="{'border-red-600': contentReder?.invalid && contentReder?.touched }"
                   formControlName="content"
                   placeholder="New content"
                   type="text"
                   class=" w-full rounded text-base border-gray-900 border-2  focus:border-lime-500 focus:border-4 block h-56 pl-4 p-2.5"
-            ></textarea>
-            </app-richtext>
+            ><app-richtext></app-richtext>
+          </textarea>
+
           </div>
           <div class="mx-6" *ngIf="contentReder?.touched && contentReder?.invalid">
             <p *ngIf="contentReder?.hasError('required')" class="font-medium text-red-500">
@@ -95,8 +95,8 @@
             </div>
           </div>
           <div class="flex justify-center gap-4">
-            <app-btn  [typeBtn]="'submit'" [color]="'green'" >Publish</app-btn>
-            <app-btn [typeBtn]="'button'" [color]="'red'" (click)="resetForm()"> Cancel</app-btn>
+            <app-btn  [typeBtn]="'submit'"  >Publish</app-btn>
+            <app-btn [typeBtn]="'button'" (click)="resetForm()"> Cancel</app-btn>
           </div>
         </form>
       </div>
